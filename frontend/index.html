@@ -7,17 +7,37 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Radiology Assistant</h1>
-    <form id="image-form">
-        <input type="file" id="image-file" name="file">
-        <button type="submit">Classify Image</button>
-    </form>
-    <div id="result"></div>
-    <form id="chatbot-form">
-        <input type="text" id="query" name="query" placeholder="Ask a radiology question">
-        <button type="submit">Ask</button>
-    </form>
-    <div id="chatbot-response"></div>
+    <div class="container">
+        <div class="classification-section">
+            <h2>Image Classification</h2>
+            <form id="image-form" class="image-form">
+                <input type="file" id="image-file" name="file" accept="image/*">
+                <button type="submit">Classify Image</button>
+            </form>
+            <div class="result-section">
+                <div class="input-image">
+                    <h3>Input Image</h3>
+                    <img id="input-image-display" src="#" alt="Input Image" />
+                </div>
+                <div class="predictive-image">
+                    <h3>Predictive Image Regions</h3>
+                    <img id="predictive-image-display" src="#" alt="Predictive Image" />
+                </div>
+                <div class="disease-predictions">
+                    <h3>Disease Predictions</h3>
+                    <ul id="disease-list"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-section">
+            <h2>Chatbot</h2>
+            <div id="chatbot-messages" class="chatbot-messages"></div>
+            <form id="chatbot-form" class="chatbot-form">
+                <input type="text" id="query" name="query" placeholder="Ask a radiology question">
+                <button type="submit">Ask</button>
+            </form>
+        </div>
+    </div>
     <script src="scripts.js"></script>
 </body>
 </html>

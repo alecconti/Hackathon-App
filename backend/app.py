@@ -1,26 +1,25 @@
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from msrest.authentication import CognitiveServicesCredentials
 import os
 
-app = Flask(__name__)
-subscription_key = '9d7c807d-7a92-4035-96a5-e6ed8a51300e'
+app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 
+# Azure Cognitive Services credentials
+subscription_key = '9d7c807d-7a92-4035-96a5-e6ed8a51300e'
 endpoint = 'https://imageclassifieravanadehackathon.cognitiveservices.azure.com/'
-computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
 computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
 
 @app.route('/')
 def home():
-    return "Radiology Assistant App!"
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/classify-image', methods=['POST'])
 def classify_image():
     file = request.files['file']
     image_data = file.read()
-    result = computervision_client.analyze_image_in_stream(image_data)
-    return jsonify(result.as_dict())
+    analysis = computervision_client.analyze_image_in_stream(image_data, visual_features=['Description', 'Tags'])
+    return jsonify(analysis.as_dict())
 
 @app.route('/rag-chatbot', methods=['POST'])
 def rag_chatbot():
